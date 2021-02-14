@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<Cliente> SignInManager
+@inject UserManager<Cliente> UserManager
+
+<div class="topbar">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-12 col-12">
+                <!-- Top Left -->
+                <div class="top-left">
+                    <ul class="list-main">
+                        <li><i class="ti-headphone-alt"></i> (69) 9234-9403</li>
+                        <li><i class="ti-email"></i> rafaelpassos.web@gmail.com</li>
+                    </ul>
+                </div>
+                <!--/ End Top Left -->
+            </div>
+            <div class="col-lg-8 col-md-12 col-12">
+                <!-- Top Right -->
+                <div class="right-content">
+                    <ul class="list-main">
+                        <li><i class="ti-location-pin"></i> Endereço</li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            Cliente appUser = await UserManager.GetUserAsync(User);
+                            <li><i class="ti-user"></i> <a href="#">@appUser.FullName</a></li>
+                            <li><i class="ti-power-off"></i><a href="@Url.Action("Sair","Account")">Sair</a></li>
+                        }
+                        else
+                        {
+                            <li><i class="ti-user"></i> <a href="@Url.Action("MeuPedido","Carrinho")">Minha conta</a></li>
+                            <li><i class="ti-power-off"></i><a href="@Url.Action("Login","Account")">Login</a></li>
+                        }
+                    </ul>
+                </div>
+                <!-- End Top Right -->
+            </div>
+        </div>
+    </div>
+</div>

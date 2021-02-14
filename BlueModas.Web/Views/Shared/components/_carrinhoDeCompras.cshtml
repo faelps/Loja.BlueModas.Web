@@ -1,0 +1,55 @@
+﻿@model BlueModas.Web.ViewModel.InicioViewModel
+<div class="col-lg-2 col-md-3 col-12">
+    <div class="right-bar">
+        <!-- Search Form -->
+        <div class="sinlge-bar">
+            <a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+        </div>
+        <div class="sinlge-bar">
+            <a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+        </div>
+        <div class="sinlge-bar shopping">
+            @if (Model.Carrinho != null)
+            {
+                <a href="#" class="single-icon"><i class="ti-bag"></i> <span class="total-count">@Model.CalcularTotalDeProdutos()</span></a>
+            }
+            <!-- Shopping Item -->
+            <div class="shopping-item">
+                <div class="dropdown-cart-header">
+                    @if (Model.Carrinho != null)
+                    {
+                        <span>@Model.Carrinho.ItemDoCarrinho.Count Itens</span>
+                    }
+
+                    <a href="#">Ver Carrinho</a>
+                </div>
+                <ul class="shopping-list">
+                    @if (Model.Carrinho != null)
+                    {
+                        @foreach (var item in Model.Carrinho.ItemDoCarrinho)
+                        {
+                            <li>
+                                <a href="#" class="remove" title="Remover item"><i class="fa fa-remove"></i></a>
+                                <a class="cart-img" href="#"><img width="70" height="70" src="@item.Produto.Imagem" alt="#"></a>
+                                <h4><a href="#">@item.Produto.Nome</a></h4>
+                                <p class="quantity">@item.Quantidade <span class="amount">@item.Produto.Preco</span></p>
+                            </li>
+                        }
+                    }
+                </ul>
+                <div class="bottom">
+                    <div class="total">
+                        <span>Total</span>
+                        @if (Model.Carrinho != null)
+                        {
+                            <span class="total-amount">R$ @Model.CalcularPrecoTotalDoCarrinho()</span>
+                        }
+
+                    </div>
+                    <a asp-controller="Carrinho" asp-action="VerCarrinho" class="btn animate">Checkout</a>
+                </div>
+            </div>
+            <!--/ End Shopping Item -->
+        </div>
+    </div>
+</div>

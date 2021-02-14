@@ -1,0 +1,69 @@
+﻿@model BlueModas.Web.ViewModel.InicioViewModel
+<div class="shopping-cart section">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 pb-4">
+                <section class="small-banner section">
+                    <div class="container-fluid">
+                        <div class="row">
+                            @if (Model.Pedidos != null)
+                            {
+                                @foreach (var item in Model.Pedidos.Take(1))
+                                {
+                            <div class="">
+                                <span class="text-secondary">Cliente:<small class="text-info"> @item.Cliente.Nome</small></span><br />
+                                <span class="text-secondary">Telefone:<small class="text-info">  @item.Cliente.Telefone</small></span><br />
+                                <span class="text-secondary">E-mail:<small class="text-info"> @item.Cliente.Email</small></span><br />
+                                <span class="text-secondary">Número do Pedido:<small class="text-info"> @item.NumeroDoPedido</small></span><br />
+                            </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-12">
+                <!-- Shopping Summery -->
+                <table class="table shopping-summery">
+                    <thead>
+                        <tr class="main-hading">
+                            <th>PRODUTO</th>
+                            <th>NOME</th>
+                            <th class="text-center">PREÇO UNITÁRIO</th>
+                            <th class="text-center">QUANTIDADE</th>
+                            <th class="text-center">TOTAL</th>
+                            <th class="text-center"><i class="ti-trash remove-icon"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Pedidos)
+                        {
+                            foreach (var itens in item.ItensDoPedido)
+                            {
+                                <tr>
+                                    <td class="image" data-title="No"><img src="@itens.Produto.Imagem" width="100" height="100" alt="#"></td>
+                                    <td class="product-des" data-title="Description">
+                                        <p class="product-name"><a href="#">@itens.Produto.Nome</a></p>
+                                    </td>
+                                    <td class="price" data-title="Price"><span>R$ @itens.Produto.Preco </span></td>
+                                    <td class="qty" data-title="Qty">
+                                        <!-- Input Order -->
+                                        <p class="product-name"><a href="#">@itens.Quantidade</a></p>
+                                        <!--/ End Input Order -->
+                                    </td>
+                                    <td class="total-amount" data-title="Total"><span>R$ @itens.CalcularValorPorItem()</span></td>
+                                    <td class="action" data-title="Remove"><a href="#"><i class="ti-trash remove-icon"></i></a></td>
+                                </tr>
+                            }
+
+                        }
+                    </tbody>
+                </table>
+                <!--/ End Shopping Summery -->
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ End Shopping Cart -->

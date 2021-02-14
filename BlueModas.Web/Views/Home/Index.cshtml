@@ -1,0 +1,91 @@
+﻿@model BlueModas.Web.ViewModel.InicioViewModel
+@{
+    ViewData["Title"] = "Blue Modas";
+}
+<div class="product-area most-popular section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title">
+                    <h2>Promoções</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="owl-carousel popular-slider">
+                    <!-- Start Single Product -->
+                    @if (Model.Produtos != null)
+                    {
+                        @foreach (var produto in Model.Produtos)
+                        {
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="#" data-toggle="modal" data-produtoId="@produto.Id" data-target="#exampleModal">
+                                        <img class="default-img" width="550" height="750" src="@produto.Imagem" alt="#">
+                                        <span class="out-of-stock">Quente</span>
+                                    </a>
+                                    <div class="button-head">
+                                        <div class="product-action">
+                                            <a data-toggle="modal" data-produtoId="@produto.Id" data-target="#exampleModal" title="Visulizar" href="#"><i class=" ti-eye"></i><span>Visulizar</span></a>
+                                        </div>
+                                        <div class="product-action-2">
+                                            <a href="#" title="Add to cart"  data-toggle="modal" data-produtoId="@produto.Id" data-target="#exampleModal">Adicionar no carrinho</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-content">
+                                    <h3><a href="product-details.html">@produto.Nome</a></h3>
+                                    <div class="product-price">
+                                        <span>@produto.Preco</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+     $('#exampleModal').on('show.bs.modal', function (event) {
+         var url = '@Url.Action("DetalhesDoProduto", "Produto")';
+         var id = $(event.relatedTarget).data('produtoid')
+         $.ajax({
+             type: "GET",
+             url: url,
+             data: { id: id },
+        cache: false,
+        success: function (data) {
+            $('#exampleModal').find('.modal-body').html(data);
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+})
+    </script>
+    <script>
+        $('.pro-qty').prepend('<span class="dec qtybtn">-</span>');
+        $('.pro-qty').append('<span class="inc qtybtn">+</span>');
+        $('.qtybtn').on('click', function () {
+            var $button = $(this);
+            var oldValue = $button.parent().find('input').val();
+            if ($button.hasClass('inc')) {
+                var newVal = parseFloat(oldValue) + 1;
+            } else {
+                // Don't allow decrementing below zero
+                if (oldValue > 0) {
+                    var newVal = parseFloat(oldValue) - 1;
+                } else {
+                    newVal = 0;
+                }
+            }
+            $button.parent().find('input').val(newVal);
+        });
+
+    </script>
+}
